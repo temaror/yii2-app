@@ -1,5 +1,6 @@
 <?php
 
+
 $params = require __DIR__ . '/params.php';
 $db = require __DIR__ . '/db.php';
 
@@ -15,16 +16,27 @@ $config = [
         'request' => [
             // !!! insert a secret key in the following (if it is empty) - this is required by cookie validation
             'cookieValidationKey' => 'J-qn-f0HBwvAyWmrj-MfWukNvBn4ZE9_',
+            'parsers' => [
+                'application/json' => 'yii\web\JsonParser',
+            ],
         ],
         'cache' => [
             'class' => 'yii\caching\FileCache',
         ],
         'user' => [
             'identityClass' => 'app\models\User',
-            'enableAutoLogin' => true,
+            'enableAutoLogin' => false,
+            'loginUrl' => null,
+        ],
+        'jwt' => [
+            'class' => \app\components\Jwt::class,
+            'key' => 'super-secret-jwt-key',
+            'issuer' => 'yii2-rest-api',
+            'audience' => 'yii2-rest-api',
+            'expire' => 3600 * 24,
         ],
         'errorHandler' => [
-            'errorAction' => 'site/error',
+            'errorAction' => null,
         ],
         'mailer' => [
             'class' => \yii\symfonymailer\Mailer::class,
@@ -42,14 +54,26 @@ $config = [
             ],
         ],
         'db' => $db,
-        /*
         'urlManager' => [
             'enablePrettyUrl' => true,
+            'enableStrictParsing' => false,
             'showScriptName' => false,
             'rules' => [
+                // auth
+                'POST auth/login' => 'auth/login',
+
+                // users
+                'POST users' => 'user/create',
+                'GET users/<id:\d+>' => 'user/view',
+
+                // books
+                'GET books' => 'book/index',
+                'POST books' => 'book/create',
+                'GET books/<id:\d+>' => 'book/view',
+                'PUT books/<id:\d+>' => 'book/update',
+                'DELETE books/<id:\d+>' => 'book/delete',
             ],
         ],
-        */
     ],
     'params' => $params,
 ];
