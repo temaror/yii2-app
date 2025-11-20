@@ -1,0 +1,26 @@
+# OS / IDE
+.DS_Store
+.idea/
+.vscode/
+
+# Composer
+/vendor/
+app/vendor/
+
+# Yii runtime & assets
+runtime/
+app/runtime/
+web/assets/
+app/web/assets/
+
+# Logs
+*.log
+
+# Env / local configs
+.env
+.env.*
+docker-compose.override.yml
+
+# PHPUnit / Codeception
+tests/_output/
+tests/_support/_generated/
